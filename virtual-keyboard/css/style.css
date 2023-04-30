@@ -41,6 +41,9 @@ a {
   margin-bottom: 1rem;
 }
 
+.keyboard {
+  position: relative;
+}
 .keyboard__container {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(14.52%, rgba(255, 255, 255, 0.2)), color-stop(87.38%, rgba(255, 255, 255, 0))), #626166;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 14.52%, rgba(255, 255, 255, 0) 87.38%), #626166;
@@ -50,6 +53,8 @@ a {
   padding: 10px;
 }
 .keyboard__key {
+  min-width: 62px;
+  text-align: center;
   cursor: pointer;
   font-size: 22px;
   line-height: 1.1818181818;
@@ -96,4 +101,51 @@ a {
 
 .hidden {
   display: none;
+}
+
+.arrow-down,
+.arrow-up,
+.arrow-right,
+.arrow-left {
+  font-size: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.arrow-up,
+.arrow-down {
+  padding: 12px 22px;
+  height: 20px;
+  position: absolute;
+  bottom: 10px;
+  right: 77px;
+}
+
+.arrow-up {
+  bottom: 44px;
+}
+
+.arrow-left {
+  margin-right: 60px;
+}
+
+.space {
+  width: 25rem;
+}
+
+.right-shift {
+  width: 10rem;
+  text-align: right;
+}
+
+.tab {
+  width: 7rem;
+  text-align: center;
 }

@@ -1,9 +1,9 @@
 const allKeysLower = [
     '§', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'delete',
-    'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
-    'caps', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'backslash', 'return',
+    'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'backslash',
+    'caps', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'",'return',
     'left-shift', '`', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'right-shift', 
-    'crtl', 'left-alt', 'left-cmd', 'space', 'right-cmd', 'right-alt', 'arrow-left', 'arrow-up', 'arrow-down', 'arrow-left'
+    'crtl', 'left-alt', 'left-cmd', 'space', 'right-cmd', 'right-alt', 'arrow-left', 'arrow-up', 'arrow-down', 'arrow-right'
 ]
 
 const allKeysUpper = [

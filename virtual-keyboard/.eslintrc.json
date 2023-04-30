@@ -11,5 +11,12 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "no-underscore-dangle": "off",
+        "no-unused-vars": "off",
+        "semi": "off",
+        "no-trailing-spaces": "off",
+        "padded-blocks": "off",
+        "import/prefer-default-export": "off",
+        "import/extensions": "never"
     }
 }

@@ -74,12 +74,24 @@ a {
   border-radius: 40px;
   color: white;
 }
+.keyboard__key.active {
+  background-color: #528f52;
+  border: 2px solid #528f52;
+  border-radius: 40px;
+  color: white;
+}
 
 .row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 8px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.row:not(:last-child) {
+  margin-bottom: 8px;
 }
 
 .hidden {

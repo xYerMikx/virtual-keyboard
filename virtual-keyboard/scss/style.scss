@@ -69,12 +69,24 @@ a {
             border-radius: 40px;
             color: white;
         }
+
+        &.active {
+            background-color: #528f52;
+            border: 2px solid #528f52;
+            border-radius: 40px;
+            color: white;
+        }
     }
 }
 
 .row {
     display: flex;
     gap: 8px;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+        margin-bottom: 8px;
+    }
 }
 
 .hidden {

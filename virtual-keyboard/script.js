@@ -4,7 +4,7 @@ import {
     allKeysLowerRu,
     allKeysShiftRu,
 } from "./KeysObjects.js";
-import { Keyboard, Key } from "./Keyboard.js";
+import { Keyboard } from "./Keyboard.js";
 
 const body = document.querySelector(".page");
 const wrapper = document.createElement("div");
@@ -22,7 +22,7 @@ wrapper.insertAdjacentHTML("afterend", `<p class="description">This virtual keyb
 
 const textarea = document.querySelector(".keyboard-textarea")
 let isCapsLock = false,
-    lang = "en";
+    lang = localStorage.getItem("lang") || "en";
 
 
 const focusOnTextarea = () => {
@@ -50,8 +50,11 @@ const keyboard = new Keyboard({
 
 keyboard.init()
 keyboard.createKeys(allKeysLowerEn)
-const keysArr = document.querySelectorAll(".keyboard__key")
 focusOnTextarea()
+
+const setLocalStorage = () => {
+    localStorage.setItem("lang", lang);
+}
 
 document.addEventListener("keydown", (e) => {
     const clickedKey = document.querySelector(`.${e.code}`)
@@ -59,23 +62,69 @@ document.addEventListener("keydown", (e) => {
     if (clickedKey) {
         clickedKey.classList.add("active")
         if (e.shiftKey && e.altKey) {
-            if (lang === 'en') {
-                const rows = document.querySelectorAll(".row")
-                rows.forEach(row => {
-                    row.remove()
-                })
-                keyboard.createKeys(allKeysLowerRu)
-                lang = 'ru'
-            } else {
-                const rows = document.querySelectorAll(".row")
-                rows.forEach(row => {
-                    row.remove()
-                })
-                keyboard.createKeys(allKeysLowerEn)
-                lang = 'en'
-            }
-
+            lang = lang === "en" ? "ru" : "en";
+            setLocalStorage()
+            setTimeout(() => {
+                if (lang === 'en') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysLowerRu)
+                } else if (lang === 'ru') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysLowerEn)
+                }
+            }, 100);
         }
+        if (e.code === "Backspace") {
+            textarea.textContent.slice(0, -1)
+            // textarea.textContent += clickedKey.textContent
+        } else if (e.code === "ArrowLeft") {
+            textarea.textContent += "◄"
+        } else if (e.code === "ArrowRight") {
+            textarea.textContent += "►"
+        } else if (e.code === "ArrowUp") {
+            textarea.textContent += "▲"
+        } else if (e.code === "ArrowDown") {
+            textarea.textContent += "▼"
+        }
+        if (e.key === "Shift" && !isCapsLock) {
+            setTimeout(() => {
+                if (lang === 'en') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysShiftEn)
+                } else if (lang === 'ru') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysShiftRu)
+                }
+            }, 100);
+        } else if (e.key === "Shift" && isCapsLock) {
+            setTimeout(() => {
+                if (lang === 'en') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysLowerEn)
+                } else if (lang === 'ru') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysLowerRu)
+                }
+            }, 100);
+        } 
     }
 
 })
@@ -85,6 +134,39 @@ document.addEventListener("keyup", (e) => {
 
     if (clickedKey) {
         clickedKey.classList.remove("active")
+        if (e.key === "Shift" && !isCapsLock) {
+            setTimeout(() => {
+                if (lang === 'en') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysLowerEn)
+                } else if (lang === 'ru') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysLowerRu)
+                }
+            }, 100);
+        } else if (e.key === "Shift" && isCapsLock) {
+            setTimeout(() => {
+                if (lang === 'en') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysShiftEn)
+                } else if (lang === 'ru') {
+                    const rows = document.querySelectorAll(".row")
+                    rows.forEach(row => {
+                        row.remove()
+                    })
+                    keyboard.createKeys(allKeysShiftRu)
+                }
+            }, 100);
+        }
     }
 })
 
@@ -103,4 +185,5 @@ wrapper.addEventListener("mouseup", (e) => {
         clickedKey.classList.remove("active")
     }
 })
+window.addEventListener("beforeunload", setLocalStorage)
 

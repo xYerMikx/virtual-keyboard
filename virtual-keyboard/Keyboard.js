@@ -19,7 +19,6 @@ export class Keyboard {
             keyEl.classList.add("keyboard__key", "key", `${key}`)
 
             const createArrow = () => {
-                keyEl.classList.add(key);
                 const classArrow = key.toLowerCase().slice(0, 5) + '-' + key.toLowerCase().slice(5)
                 keyEl.innerHTML = `<i class="fa-solid fa-${classArrow}"></i>`;
             };
@@ -27,6 +26,12 @@ export class Keyboard {
                 createArrow()
             } else if (key === "Space") {
                 keyEl.classList.add("space")
+            } else if (key === "ShiftRight") {
+                keyEl.classList.add("right-shift")
+                keyEl.innerHTML = "shift"
+            } else if (key === "Tab") {
+                keyEl.classList.add("tab")
+                keyEl.innerHTML = "tab"
             } else {
                 keyEl.innerHTML = keysObject[key]
             }

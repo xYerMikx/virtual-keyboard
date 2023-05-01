@@ -17,7 +17,7 @@ a {
 }
 
 .wrapper {
-    margin-top: 2rem;
+    margin-top: 0.4rem;
     margin-inline: auto;
     width: 1027px;
     width: fit-content;
@@ -35,7 +35,7 @@ a {
     border: 2px solid black;
     padding: 5px 10px;
     border-radius: 0.35rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     transition: all 0.1s linear;
 
     &:focus {
@@ -141,4 +141,10 @@ a {
 .tab {
     width: 7rem;
     text-align: center;
+}
+.description {
+    margin: 2rem 0;
+    text-align: center;
+    font-size: 20px;
+    text-decoration: underline;
 }

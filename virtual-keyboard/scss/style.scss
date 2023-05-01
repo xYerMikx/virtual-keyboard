@@ -36,6 +36,11 @@ a {
     padding: 5px 10px;
     border-radius: 0.35rem;
     margin-bottom: 1rem;
+    transition: all 0.1s linear;
+
+    &:focus {
+        border: 2px solid blue;
+    }
 }
 
 .keyboard {
@@ -97,18 +102,18 @@ a {
     display: none;
 }
 
-.arrow-down,
-.arrow-up,
-.arrow-right,
-.arrow-left {
+.ArrowDown,
+.ArrowUp,
+.ArrowRight,
+.ArrowLeft {
     font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.arrow-up,
-.arrow-down {
+.ArrowUp,
+.ArrowDown {
     padding: 12px 22px;
     height: 20px;
     position: absolute;
@@ -116,11 +121,11 @@ a {
     right: 77px;
 }
 
-.arrow-up {
+.ArrowUp {
     bottom: 44px;
 }
 
-.arrow-left {
+.ArrowLeft {
     margin-right: 60px;
 }
 

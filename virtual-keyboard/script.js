@@ -46,7 +46,11 @@ const keyboard = new Keyboard({
 });
 
 keyboard.init();
-keyboard.createKeys(allKeysLowerEn);
+if (localStorage.getItem("lang") === 'en') {
+  keyboard.createKeys(allKeysLowerEn)
+} else {
+  keyboard.createKeys(allKeysLowerRu)
+}
 focusOnTextarea();
 const allKeys = document.querySelectorAll(".key")
 

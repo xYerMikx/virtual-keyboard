@@ -21,7 +21,7 @@ wrapper.insertAdjacentHTML(
 wrapper.insertAdjacentHTML('afterend', '<p class="description">This virtual keyboard was made using MacOS. To switch languages use LeftOption (LeftAlt) + LeftShift</p>');
 
 const textarea = document.querySelector('.keyboard-textarea');
-const isCapsLock = false;
+let isCapsLock = false;
 let lang = localStorage.getItem('lang') || 'en';
 
 const focusOnTextarea = () => {
@@ -48,6 +48,7 @@ const keyboard = new Keyboard({
 keyboard.init();
 keyboard.createKeys(allKeysLowerEn);
 focusOnTextarea();
+const allKeys = document.querySelectorAll(".key")
 
 const setLocalStorage = () => {
   localStorage.setItem('lang', lang);
@@ -55,7 +56,7 @@ const setLocalStorage = () => {
 
 document.addEventListener('keydown', (e) => {
   const clickedKey = document.querySelector(`.${e.code}`);
-
+  focusOnTextarea()
   if (clickedKey) {
     clickedKey.classList.add('active');
     if (e.shiftKey && e.altKey) {
@@ -77,9 +78,29 @@ document.addEventListener('keydown', (e) => {
         }
       }, 100);
     }
+    if (e.code === "CapsLock") {
+      allKeys.forEach(key => {
+        if (key.textContent !== "backspace" &&
+          key.textContent !== "tab" &&
+          key.textContent !== "caps lock" &&
+          key.textContent !== "return" &&
+          key.textContent !== "shift" &&
+          key.textContent !== "ctrl" &&
+          key.textContent !== "cmd" &&
+          key.textContent !== "alt") {
+          if (!isCapsLock) {
+            key.textContent = key.textContent.toUpperCase()
+            isCapsLock == true
+            return
+          } else if (isCapsLock) {
+            key.textContent = key.textContent.toLowerCase()
+            isCapsLock == false
+          }
+        }
+      })
+    }
     if (e.code === 'Backspace') {
       textarea.textContent.slice(0, -1);
-      // textarea.textContent += clickedKey.textContent
     } else if (e.code === 'ArrowLeft') {
       textarea.textContent += '◄';
     } else if (e.code === 'ArrowRight') {
@@ -88,6 +109,21 @@ document.addEventListener('keydown', (e) => {
       textarea.textContent += '▲';
     } else if (e.code === 'ArrowDown') {
       textarea.textContent += '▼';
+    } else if (e.code === "Tab") {
+      e.preventDefault()
+      textarea.textContent += "    "
+    } else if (e.code === "ShiftLeft" ||
+      e.code === "ShiftRight" ||
+      e.code === "AltLeft" ||
+      e.code === "MetaLeft" ||
+      e.code === "AltRight" ||
+      e.code === "MetaRight" ||
+      e.code === "ControlLeft" ||
+      e.code === "Enter" ||
+      e.code === "CapsLock") {
+      textarea.textContent += ""
+    } else {
+      textarea.textContent += clickedKey.textContent
     }
     if (e.key === 'Shift' && !isCapsLock) {
       setTimeout(() => {
@@ -130,6 +166,27 @@ document.addEventListener('keyup', (e) => {
 
   if (clickedKey) {
     clickedKey.classList.remove('active');
+    if (e.code === "CapsLock") {
+      allKeys.forEach(key => {
+        if (key.textContent !== "backspace" &&
+          key.textContent !== "tab" &&
+          key.textContent !== "caps lock" &&
+          key.textContent !== "return" &&
+          key.textContent !== "shift" &&
+          key.textContent !== "ctrl" &&
+          key.textContent !== "cmd" &&
+          key.textContent !== "alt") {
+          if (!isCapsLock) {
+            key.textContent = key.textContent.toUpperCase()
+            isCapsLock == true
+            return
+          } else if (isCapsLock) {
+            key.textContent = key.textContent.toLowerCase()
+            isCapsLock == false
+          }
+        }
+      })
+    }
     if (e.key === 'Shift' && !isCapsLock) {
       setTimeout(() => {
         if (lang === 'en') {
@@ -166,18 +223,116 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-wrapper.addEventListener('mousedown', (e) => {
-  const clickedKey = document.querySelector(`.${e.target.classList}`);
-  if (clickedKey) {
-    clickedKey.classList.add('active');
+container.addEventListener('mousedown', (e) => {
+  const clickedClassName = e.target.classList
+  if (clickedClassName) {
+    clickedClassName.add('active');
+    if ((clickedClassName.contains("ShiftRight") ||
+      clickedClassName.contains("ShiftLeft")) && !isCapsLock) {
+      setTimeout(() => {
+        if (lang === 'en') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysShiftEn);
+        } else if (lang === 'ru') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysShiftRu);
+        }
+      }, 100);
+    } else if ((clickedClassName.contains("ShiftRight") ||
+      clickedClassName.contains("ShiftLeft")) && isCapsLock) {
+      setTimeout(() => {
+        if (lang === 'en') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysLowerEn);
+        } else if (lang === 'ru') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysLowerRu);
+        }
+      }, 100);
+    }
+    if (clickedClassName.contains("Backspace")) {
+      textarea.textContent = textarea.textContent.slice(0, -1);
+    } else if (clickedClassName.contains('ArrowLeft')) {
+      textarea.textContent += '◄';
+    } else if (clickedClassName.contains('ArrowRight')) {
+      textarea.textContent += '►';
+    } else if (clickedClassName.contains('ArrowUp')) {
+      textarea.textContent += '▲';
+    } else if (clickedClassName.contains('ArrowDown')) {
+      textarea.textContent += '▼';
+    } else if (clickedClassName.contains("Tab")) {
+      e.preventDefault()
+      textarea.textContent += "    "
+    } else if (clickedClassName.contains("MetaRight") ||
+      clickedClassName.contains("AltRight") ||
+      clickedClassName.contains("MetaLeft") ||
+      clickedClassName.contains("ControlLeft") ||
+      clickedClassName.contains("AltLeft") ||
+      clickedClassName.contains("Enter") ||
+      clickedClassName.contains("CapsLock") ||
+      clickedClassName.contains("ShiftLeft") ||
+      clickedClassName.contains("ShiftRight")) {
+      textarea.textContent += ""
+    } else if (clickedClassName.contains("keyboard__container") ||
+      clickedClassName.contains("keyboard__row")) {
+      textarea.textContent += ""
+    } else {
+      textarea.textContent += e.target.textContent
+    }
   }
 });
 
-wrapper.addEventListener('mouseup', (e) => {
-  const clickedKey = document.querySelector(`.${e.code}`);
-
-  if (clickedKey) {
-    clickedKey.classList.remove('active');
+container.addEventListener('mouseup', (e) => {
+  const clickedClassName = e.target.classList
+  if (clickedClassName) {
+    clickedClassName.remove('active');
+    if ((clickedClassName.contains("ShiftRight") ||
+    clickedClassName.contains("ShiftLeft")) && !isCapsLock) {
+      setTimeout(() => {
+        if (lang === 'en') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysLowerEn);
+        } else if (lang === 'ru') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysLowerRu);
+        }
+      }, 100);
+    } else if ((clickedClassName.contains("ShiftRight") ||
+    clickedClassName.contains("ShiftLeft")) && isCapsLock) {
+      setTimeout(() => {
+        if (lang === 'en') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysShiftEn);
+        } else if (lang === 'ru') {
+          const rows = document.querySelectorAll('.row');
+          rows.forEach((row) => {
+            row.remove();
+          });
+          keyboard.createKeys(allKeysShiftRu);
+        }
+      }, 100);
+    }
   }
 });
 window.addEventListener('beforeunload', setLocalStorage);
